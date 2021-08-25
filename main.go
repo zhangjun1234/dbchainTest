@@ -16,24 +16,32 @@ const (
 
 func main() {
 	resp := QueryTableData("student")
+	fmt.Println("=============Query Table Data Resp====================")
 	fmt.Println(resp)
-	fmt.Println("====================================")
-	fmt.Println("====================================")
-	//resp2 := QueryTableStruct("users")
-	//fmt.Println(resp2)
-	//fmt.Println("====================================")
-	//fmt.Println("====================================")
-	//fieldsMap :=ExtractFields(resp2)
-	//for k,v :=range fieldsMap{
-	//	fmt.Println("fieldsMap key :",k,",value :",v)
-	//}
+	fmt.Println("==============Query Table Data Resp End======================")
+	fmt.Println("=================Boundary===================")
+	fmt.Println("=================ExtractData From Resp===================")
 	DataMap :=ExtractData(resp)
 	for _,v :=range DataMap{
-	     for k2,v2:=range v{
-			 fmt.Println("Data key :",k2,",value :",v2)
-		 }
-		 fmt.Println("========================")
+		for k2,v2:=range v{
+			fmt.Println("Data key :",k2,",value :",v2)
+		}
+		fmt.Println("=================Boundary===================")
 	}
+	fmt.Println("=================ExtractData  End===================")
+	fmt.Println("=================Boundary===================")
+	fmt.Println("=================Query Table DataType Resp===================")
+	resp2 := QueryTableStruct("student")
+	fmt.Println(resp2)
+	fmt.Println("=================Query Table DataType Resp===================")
+	fmt.Println("=================Boundary===================")
+	fmt.Println("=================ExtractData From  Resp===================")
+	fieldsMap :=ExtractFields(resp2)
+	for k,v :=range fieldsMap{
+		fmt.Println("fieldsMap key :",k,",value :",v)
+	}
+	fmt.Println("=================ExtractData End===================")
+
 }
 
 func ExtractFields(resp string)map[string]interface{}{
@@ -52,8 +60,8 @@ func ExtractFields(resp string)map[string]interface{}{
 	//fmt.Println("fieilds content",resultMap["fields"])
 	fieldsInterfaces := resultMap["fields"].([]interface{})
 	var fieldsMap =make(map[string] interface{})
-	for k,v :=range fieldsInterfaces{
-		fmt.Println("resultmap key :",k,",value :",v)
+	for _,v :=range fieldsInterfaces{
+		//fmt.Println("resultmap key :",k,",value :",v)
 		fieldsMap[v.(string)]=""
 	}
 	//for k,v :=range fieldsMap{
@@ -88,7 +96,7 @@ func QueryTableData(tableName string) string {
 	qCEncode := base58.Encode([]byte(queryCondition))
 	token := MakeAccessCode()
 	QueryDataUrl := baseUrl + "/querier/" + token + "/" + databaseName + "/" + qCEncode
-	fmt.Println("url : ",QueryDataUrl)
+	//fmt.Println("url : ",QueryDataUrl)
 	return Get(QueryDataUrl)
 }
 
